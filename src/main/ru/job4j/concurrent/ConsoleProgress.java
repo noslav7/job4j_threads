@@ -7,7 +7,7 @@ public class ConsoleProgress implements Runnable {
 
     public static void main(String[] args) throws InterruptedException {
         Thread progress = new Thread(new ConsoleProgress());
-        progress.run();
+        progress.start();
         Thread.sleep(4000);
         progress.interrupt();
     }
@@ -16,12 +16,14 @@ public class ConsoleProgress implements Runnable {
     @Override
     public void run() {
         List<Character> symbols = List.of('-', '\\', '|', '/', '-', '\\', '|', '/');
-        for (Character symbol : symbols) {
-            System.out.print("\r Loading " + symbol);
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (!Thread.currentThread().isInterrupted()) {
+            for (Character symbol : symbols) {
+                System.out.print("\r Loading " + symbol);
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
