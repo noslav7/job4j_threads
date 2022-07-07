@@ -19,7 +19,6 @@ public class Wget implements Runnable {
         String file = this.url;
         try (BufferedInputStream in = new BufferedInputStream(new URL(file).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp2.xml")) {
-            int timeToLoad = 1000;
             byte[] mockBuffer = new byte[1024];
             byte[] dataBuffer = new byte[1024];
             long start = System.currentTimeMillis();
@@ -27,8 +26,8 @@ public class Wget implements Runnable {
             long end = System.currentTimeMillis();
             long elapsedTime = end - start;
             int waiting = 0;
-            if (elapsedTime < timeToLoad) {
-                waiting = (int) (timeToLoad - elapsedTime);
+            if (elapsedTime < this.speed) {
+                waiting = (int) (this.speed - elapsedTime);
             }
             int bytesRead;
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
