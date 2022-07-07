@@ -7,8 +7,8 @@ public class ConsoleProgress implements Runnable {
     int[] process = new int[10];
 
     public static void main(String[] args) throws InterruptedException {
-        progress.start();
-        Thread.sleep(1000);
+        progress.run();
+        Thread.sleep(5000);
         progress.interrupt();
     }
 
@@ -16,13 +16,21 @@ public class ConsoleProgress implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < 10; i++) {
-            try {
-                while (!progress.isInterrupted()) {
-                    System.out.print("\r Loading " + process[i]);
+            if (i == 0 || i == 4 || i == 8) {
+                System.out.print("\r Loading " + process[i] + " -");
+            } else if (i == 1 || i == 5 || i == 9) {
+                System.out.print("\r Loading " + process[i] + " \\");
+            } else if (i == 2 || i == 6) {
+                System.out.print("\r Loading " + process[i] + " |");
+            } else {
+                System.out.print("\r Loading " + process[i] + " /");
+            }
+            if (!progress.isInterrupted()) {
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
             }
         }
     }
