@@ -21,6 +21,6 @@ public final class UserCache {
     }
 
     public List<User> findAll() {
-        return new ArrayList<>(users.values());
+        return users.values().stream().toList();
     }
 }
