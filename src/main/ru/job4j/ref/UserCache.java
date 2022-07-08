@@ -21,6 +21,6 @@ public final class UserCache {
     }
 
     public List<User> findAll() {
-        return users.values().stream().toList();
+        return User.of(users);
     }
 }
