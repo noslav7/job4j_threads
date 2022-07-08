@@ -16,28 +16,29 @@ public class Wget implements Runnable {
 
     @Override
     public void run() {
-        String file = this.url;
+        String file = "https://proof.ovh.net/files/10Mb.dat";
         try (BufferedInputStream in = new BufferedInputStream(new URL(file).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp2.xml")) {
-            byte[] mockBuffer = new byte[1024];
+
             byte[] dataBuffer = new byte[1024];
-            long start = System.currentTimeMillis();
-            int first1024 = in.read(mockBuffer, 0, 1024);
-            long end = System.currentTimeMillis();
-            long elapsedTime = end - start;
-            int waiting = 0;
-            if (elapsedTime < this.speed) {
-                waiting = (int) (this.speed - elapsedTime);
-            }
+            int downloadData = 0;
             int bytesRead;
+            int elapsedTime;
+
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
-                Thread.sleep(waiting);
+                int start = (int) System.currentTimeMillis();
+                int current;
+                downloadData++;
+                if (downloadData == speed) {
+                    current = (int) System.currentTimeMillis();
+                    if ((elapsedTime = current - start) < 1000) {
+                        Thread.sleep(1000 - elapsedTime);
+                        downloadData = 0;
+                    }
+                }
             }
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 
