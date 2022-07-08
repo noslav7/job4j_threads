@@ -16,36 +16,45 @@ public class Wget implements Runnable {
 
     @Override
     public void run() {
-        String file = "https://proof.ovh.net/files/10Mb.dat";
-        try (BufferedInputStream in = new BufferedInputStream(new URL(file).openStream());
+        try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream("pom_tmp2.xml")) {
 
             byte[] dataBuffer = new byte[1024];
             int downloadData = 0;
             int bytesRead;
-            int elapsedTime;
+            long elapsedTime;
+            long start = System.currentTimeMillis();
 
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                int start = (int) System.currentTimeMillis();
-                int current;
-                downloadData++;
-                if (downloadData == speed) {
-                    current = (int) System.currentTimeMillis();
+                long current;
+                downloadData += bytesRead;
+                if (downloadData >= speed) {
+                    current = System.currentTimeMillis();
                     if ((elapsedTime = current - start) < 1000) {
                         Thread.sleep(1000 - elapsedTime);
                         downloadData = 0;
+                        start = System.currentTimeMillis();
                     }
                 }
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void validate(int argsNum) {
+        if (argsNum < 2) {
+            throw new IllegalArgumentException();
         }
     }
 
     public static void main(String[] args) throws InterruptedException {
+        validate(args.length);
         String url = args[0];
         int speed = Integer.parseInt(args[1]);
-        Thread wget = new Thread(new Wget(url, speed));
+        Thread wget = new Thread(new Wget("https://proof.ovh.net/files/10Mb.dat", 1048576));
         wget.start();
         wget.join();
     }
