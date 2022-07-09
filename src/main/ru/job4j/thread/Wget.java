@@ -45,7 +45,7 @@ public class Wget implements Runnable {
     }
 
     public static void validate(int argsNum) {
-        if (argsNum < 2) {
+        if (argsNum != 2) {
             throw new IllegalArgumentException();
         }
     }
