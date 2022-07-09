@@ -21,6 +21,10 @@ public final class UserCache {
     }
 
     public List<User> findAll() {
-        return User.of(users);
+        List<User> foundUsers = new ArrayList<>();
+        for (User user : users.values()) {
+            foundUsers.add(user);
+        }
+        return foundUsers;
     }
 }
