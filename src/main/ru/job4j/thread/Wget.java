@@ -26,7 +26,7 @@ public class Wget implements Runnable {
             long start = System.currentTimeMillis();
 
             while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                fileOutputStream.write(dataBuffer, 0, bytesRead);
+                    fileOutputStream.write(dataBuffer, 0, bytesRead);
 
                 downloadData += bytesRead;
                 long current;
