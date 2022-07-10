@@ -53,7 +53,7 @@ public class Wget implements Runnable {
     public static void main(String[] args) throws InterruptedException {
         validate(args.length);
         String url = args[0];
-        String speed = args[1];
+        int speed = Integer.parseInt(args[1]);
         Thread wget = new Thread(new Wget("https://proof.ovh.net/files/10Mb.dat", 1048576));
         wget.start();
         wget.join();
