@@ -54,7 +54,7 @@ public class Wget implements Runnable {
         validate(args.length);
         String url = args[0];
         int speed = Integer.parseInt(args[1]);
-        Thread wget = new Thread(new Wget("https://proof.ovh.net/files/10Mb.dat", 1048576));
+        Thread wget = new Thread(new Wget(url, speed));
         wget.start();
         wget.join();
     }
