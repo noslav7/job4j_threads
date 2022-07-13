@@ -11,6 +11,10 @@ public final class ParseFile {
         this.file = f;
     }
 
+    public String getContent() throws IOException {
+        return getContent(x -> true);
+    }
+
     public void saveContent(String content) throws IOException {
         try (BufferedOutputStream outStream = new BufferedOutputStream(Files.newOutputStream(file.toPath()))) {
             for (int i = 0; i < content.length(); i += 1) {
