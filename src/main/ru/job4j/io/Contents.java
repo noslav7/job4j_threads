@@ -3,10 +3,10 @@ package ru.job4j.io;
 import java.io.*;
 import java.util.function.Predicate;
 
-public class Unicode implements Content {
+public class Contents implements Content {
     private File file;
 
-    public Unicode(File file) {
+    public Contents(File file) {
         this.file = file;
     }
 
@@ -16,8 +16,8 @@ public class Unicode implements Content {
             int data;
             StringBuilder builder = new StringBuilder();
             while ((data = i.read()) != -1) {
-                if(filter.test((char) data)) {
-                    builder.append((char) data);
+                if (data < 0x80) {
+                    builder.append(data);
                 }
             }
             return builder.toString();
