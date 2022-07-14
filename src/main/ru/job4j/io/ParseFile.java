@@ -12,7 +12,8 @@ public final class ParseFile {
     }
 
     public String getContent() throws IOException {
-        return getContent(x -> true);
+        contentType = new Contents(new File("parser.txt"));
+        return contentType.getContent(x -> true);
     }
 
     public void saveContent(String content) throws IOException {

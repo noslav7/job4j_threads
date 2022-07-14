@@ -1,15 +1,12 @@
 package ru.job4j.io;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.function.Predicate;
 
-public class Conventional implements Content {
+public class Contents implements Content {
     private File file;
 
-    public Conventional(File file) {
+    public Contents(File file) {
         this.file = file;
     }
 
@@ -18,12 +15,14 @@ public class Conventional implements Content {
         try (BufferedInputStream i = new BufferedInputStream(new FileInputStream(file))) {
             int data;
             StringBuilder builder = new StringBuilder();
-            while ((data = i.read()) > 0) {
-                builder.append((char) data);
+            while ((data = i.read()) != -1) {
+                if(filter.test((char) data)) {
+                    builder.append((char) data);
+                }
             }
             return builder.toString();
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }
