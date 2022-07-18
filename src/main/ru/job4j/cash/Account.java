@@ -2,7 +2,7 @@ package ru.job4j.cash;
 
 public class Account {
     private int id;
-    public int amount;
+    private int amount;
 
     public Account(int id, int amount) {
         this.id = id;
