@@ -32,11 +32,11 @@ public class AccountStorage {
         int newFromAmount = 0;
         if (fromAccount.isPresent()) {
             newFromAmount = fromAccount.get().getAmount() - amount;
-            fromAccount.get().setAmount(newFromAmount);
         }
         if (newFromAmount <= 0) {
             return false;
         }
+        fromAccount.get().setAmount(newFromAmount);
         accounts.replace(fromId, fromAccount.get());
         Optional<Account> toAccount = getById(toId);
         int newToAmount = 0;
