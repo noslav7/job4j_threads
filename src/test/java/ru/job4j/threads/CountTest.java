@@ -1,6 +1,8 @@
-package ru.job4j.threads;
+package java.ru.job4j.threads;
 
 import org.junit.jupiter.api.Test;
+import ru.job4j.threads.Count;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CountTest {

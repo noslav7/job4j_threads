@@ -1,7 +1,7 @@
 package ru.job4j.cash;
 
 public class Account {
-    private int id;
+    final int id;
     private int amount;
 
     public Account(int id, int amount) {
@@ -15,10 +15,6 @@ public class Account {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getAmount() {
