@@ -1,16 +1,12 @@
 package ru.job4j.cash;
 
 public class Account {
-    final int id;
+    private final int id;
     private int amount;
 
     public Account(int id, int amount) {
         this.id = id;
         this.amount = amount;
-    }
-
-    public boolean amount() {
-        return false;
     }
 
     public int getId() {

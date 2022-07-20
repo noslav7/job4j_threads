@@ -6,7 +6,7 @@ import ru.job4j.cash.AccountStorage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AccountStorageTest {
+public class AccountStorageTest {
 
     @Test
     void whenAdd() {
@@ -14,7 +14,7 @@ class AccountStorageTest {
         storage.add(new Account(1, 100));
         Account firstAccount = storage.getById(1)
                 .orElseThrow(() -> new IllegalStateException("Not found account by id = 1"));
-        assertThat(firstAccount.amount()).isEqualTo(100);
+        assertThat(firstAccount.getAmount()).isEqualTo(100);
     }
 
     @Test
@@ -24,7 +24,7 @@ class AccountStorageTest {
         storage.update(new Account(1, 200));
         Account firstAccount = storage.getById(1)
                 .orElseThrow(() -> new IllegalStateException("Not found account by id = 1"));
-        assertThat(firstAccount.amount()).isEqualTo(200);
+        assertThat(firstAccount.getAmount()).isEqualTo(200);
     }
 
     @Test
@@ -45,7 +45,7 @@ class AccountStorageTest {
                 .orElseThrow(() -> new IllegalStateException("Not found account by id = 1"));
         Account secondAccount = storage.getById(2)
                 .orElseThrow(() -> new IllegalStateException("Not found account by id = 1"));
-        assertThat(firstAccount.amount()).isEqualTo(0);
-        assertThat(secondAccount.amount()).isEqualTo(200);
+        assertThat(firstAccount.getAmount()).isEqualTo(0);
+        assertThat(secondAccount.getAmount()).isEqualTo(200);
     }
 }

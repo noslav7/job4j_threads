@@ -16,7 +16,7 @@ public class Contents implements Content {
             int data;
             StringBuilder builder = new StringBuilder();
             while ((data = i.read()) != -1) {
-                if(filter.test((char) data)) {
+                if (filter.test((char) data)) {
                     builder.append((char) data);
                 }
             }

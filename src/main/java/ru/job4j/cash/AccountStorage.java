@@ -10,17 +10,15 @@ public class AccountStorage {
     private final HashMap<Integer, Account> accounts = new HashMap<>();
 
     public synchronized boolean add(Account account) {
-       accounts.putIfAbsent(account.getId(), account);
-       return true;
+        return accounts.putIfAbsent(account.getId(), account) == null;
     }
 
     public synchronized boolean update(Account account) {
-        accounts.replace(account.getId(), account);
-        return true;
+        return accounts.replace(account.getId(), account) != null;
     }
 
     public synchronized boolean delete(int id) {
-        return accounts.remove(id) == null;
+        return accounts.remove(id) != null;
     }
 
     public synchronized Optional<Account> getById(int id) {
@@ -28,22 +26,14 @@ public class AccountStorage {
     }
 
     public synchronized boolean transfer(int fromId, int toId, int amount) {
+        boolean result = false;
         Optional<Account> fromAccount = getById(fromId);
-        int newFromAmount = 0;
-        if (fromAccount.isPresent()) {
-            newFromAmount = fromAccount.get().getAmount() - amount;
-        }
-        if (newFromAmount <= 0) {
-            return false;
-        }
-        fromAccount.get().setAmount(newFromAmount);
-        accounts.replace(fromId, fromAccount.get());
         Optional<Account> toAccount = getById(toId);
-        int newToAmount = 0;
-        if (toAccount.isPresent()) {
-            newToAmount = toAccount.get().getAmount() + amount;
-            toAccount.get().setAmount(newToAmount);
+        if (fromAccount.isPresent() && toAccount.isPresent() && amount >= fromAccount.get().getAmount()) {
+            fromAccount.get().setAmount(fromAccount.get().getAmount() - amount);
+            toAccount.get().setAmount(toAccount.get().getAmount() + amount);
+            result = true;
         }
-        return true;
+        return result;
     }
 }
