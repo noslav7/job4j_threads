@@ -1,8 +1,11 @@
 package ru.job4j.cash;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cash.Account;
 import ru.job4j.cash.AccountStorage;
+
+import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,8 +34,12 @@ public class AccountStorageTest {
     void whenDelete() {
         AccountStorage storage = new AccountStorage();
         storage.add(new Account(1, 100));
-        storage.delete(1);
-        assertThat(storage.getById(1)).isEmpty();
+        storage.add(new Account(2, 100));
+        storage.delete(2);
+        NullPointerException applicationException = Assertions.assertThrows(
+                NullPointerException.class, () -> {
+            storage.transfer(1, 2, 50);
+        });
     }
 
     @Test
