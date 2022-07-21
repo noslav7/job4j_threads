@@ -8,6 +8,7 @@ import ru.job4j.cash.AccountStorage;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AccountStorageTest {
 
@@ -35,11 +36,8 @@ public class AccountStorageTest {
         AccountStorage storage = new AccountStorage();
         storage.add(new Account(1, 100));
         storage.add(new Account(2, 100));
-        storage.delete(2);
-        NullPointerException applicationException = Assertions.assertThrows(
-                NullPointerException.class, () -> {
-            storage.transfer(1, 2, 50);
-        });
+        boolean outcome = storage.delete(2);
+        assertEquals(false, outcome);
     }
 
     @Test
