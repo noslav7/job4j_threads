@@ -18,7 +18,7 @@ public class AccountStorage {
     }
 
     public synchronized boolean delete(int id) {
-        return accounts.remove(id) == null;
+        return accounts.remove(id) != null;
     }
 
     public synchronized Optional<Account> getById(int id) {
