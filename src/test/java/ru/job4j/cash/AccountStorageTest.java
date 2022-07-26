@@ -36,7 +36,8 @@ public class AccountStorageTest {
         AccountStorage storage = new AccountStorage();
         storage.add(new Account(1, 100));
         storage.add(new Account(2, 100));
-        boolean outcome = storage.delete(2);
+        storage.delete(2);
+        boolean outcome = storage.transfer(1, 2, 50);
         assertEquals(false, outcome);
     }
 
