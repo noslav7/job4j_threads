@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 public final class ParseGetFile {
     private final File file;
@@ -11,11 +12,11 @@ public final class ParseGetFile {
         content = new Contents(file);
     }
 
-    public String getContent() throws IOException {
+    public synchronized String getContent() throws IOException {
         return content.getContent();
     }
 
-    public String getContentWithoutUnicode() throws IOException {
+    public synchronized String getContentWithoutUnicode() throws IOException {
         return content.getContent();
     }
 }
