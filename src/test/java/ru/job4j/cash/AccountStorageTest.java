@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class AccountStorageTest {
 
@@ -38,7 +39,7 @@ public class AccountStorageTest {
         storage.add(new Account(2, 100));
         storage.delete(2);
         boolean outcome = storage.transfer(1, 2, 50);
-        assertEquals(false, outcome);
+        assertFalse(outcome);
     }
 
     @Test
