@@ -13,10 +13,10 @@ public final class ParseGetFile {
     }
 
     public synchronized String getContent() throws IOException {
-        return content.getContent();
+        return content.getContent(x -> true);
     }
 
     public synchronized String getContentWithoutUnicode() throws IOException {
-        return content.getContent();
+        return content.getContent(x -> x < 0x80);
     }
 }
