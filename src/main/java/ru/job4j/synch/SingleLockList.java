@@ -2,7 +2,7 @@ package ru.job4j.synch;
 
 import net.jcip.annotations.ThreadSafe;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,6 +28,6 @@ public class SingleLockList<T> implements Iterable<T> {
     }
 
     private synchronized List<T> copy(List<T> origin) {
-        return Collections.synchronizedList(origin);
+        return new ArrayList<>(origin);
     }
 }
