@@ -1,6 +1,6 @@
 package ru.job4j;
 
-public class CountBarrier {
+public class  CountBarrier {
     private final Object monitor = this;
 
     private final int total;
