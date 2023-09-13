@@ -1,6 +1,6 @@
 package ru.job4j;
 
-public class  CountBarrier {
+public class CountBarrier {
     private final Object monitor = this;
 
     private final int total;
@@ -13,20 +13,44 @@ public class  CountBarrier {
 
     public void count() {
         synchronized (monitor) {
-                count++;
-                monitor.notifyAll();
+            count++;
+            monitor.notifyAll();
         }
     }
 
     public void await() {
         synchronized (monitor) {
+            if (count >= total) {
+                monitor.notify();
+            }
             while (count < total) {
+                Thread.yield();
                 try {
                     monitor.wait();
                 } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    throw new RuntimeException(e);
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        CountBarrier countBarrier = new CountBarrier(1);
+        Thread master = new Thread(
+                () -> {
+                    System.out.println(Thread.currentThread().getName() + " started");
+                    countBarrier.count();
+                    countBarrier.await();
+                },
+                "Master"
+        );
+        Thread slave = new Thread(
+                () -> {
+                    System.out.println(Thread.currentThread().getName() + " started");
+                },
+                "Slave"
+        );
+        master.start();
+        slave.start();
     }
 }
