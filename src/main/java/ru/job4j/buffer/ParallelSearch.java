@@ -8,8 +8,7 @@ public class ParallelSearch {
         final Thread consumer = new Thread(
                 () -> {
                     while (true) {
-                            System.out.println(queue.poll());
-                            Thread.currentThread().interrupt();
+                        System.out.println(queue.poll());
                     }
                 }
         );
