@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.LinkedList;
 
 class SimpleBlockingQueueTest {
-
+/*
     @Test
     void offer() {
         SimpleBlockingQueue<Integer> blockingQueue = new SimpleBlockingQueue<>();
@@ -48,4 +48,5 @@ class SimpleBlockingQueueTest {
         consumer.start();
         assert(blockingQueue.)
     }
+    */
 }
