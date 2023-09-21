@@ -29,7 +29,7 @@ public class SimpleBlockingQueue<T> {
         while (queue.size() == 0) {
             wait();
         }
-        T removedElement = queue.peek();
+        T removedElement = queue.poll();
         notify();
         return removedElement;
     }
