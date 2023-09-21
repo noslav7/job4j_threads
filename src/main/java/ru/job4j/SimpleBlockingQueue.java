@@ -9,15 +9,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
-    private final int MAX_SIZE = 5;
+    private int max_size;
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
 
+    public SimpleBlockingQueue(int max_size) {
+        this.max_size = max_size;
+    }
+
     public synchronized void offer(T value) throws InterruptedException {
-        while (queue.size() == MAX_SIZE) {
+        while (queue.size() == max_size) {
             wait();
         }
-        queue.add(value);
+        queue.offer(value);
         notify();
     }
 
