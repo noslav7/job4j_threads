@@ -1,68 +1,51 @@
 package ru.job4j;
 
+import org.assertj.core.api.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.LinkedList;
 
 class SimpleBlockingQueueTest {
 
     @Test
     void offer() {
         SimpleBlockingQueue<Integer> blockingQueue = new SimpleBlockingQueue<>();
-        Thread thread1 = new Thread(
+        int value = 100;
+        Thread producer = new Thread(
                 () -> {
-                    if (blockingQueue.poll().describeConstable().isEmpty()) {
-                        try {
-                            blockingQueue.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
+                    blockingQueue.offer(value);
                 },
-                "Thread1"
+                "Producer"
         );
-        Thread thread2 = new Thread(
-                () -> {
-                    if (blockingQueue.poll().describeConstable().isEmpty()) {
-                        try {
-                            blockingQueue.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                },
-                "Thread2"
-        );
-        thread1.start();
-        thread2.start();
+        producer.start();
+        SimpleBlockingQueue<Integer> expected = new SimpleBlockingQueue<>();
+        expected.offer(100);
+        assert(expected, blockingQueue);
     }
 
     @Test
     void poll() {
         SimpleBlockingQueue<Integer> blockingQueue = new SimpleBlockingQueue<>();
-        Thread thread1 = new Thread(
+        int value = 100;
+        Thread producer = new Thread(
                 () -> {
-                    if (blockingQueue.poll().describeConstable().isEmpty()) {
-                        try {
-                            blockingQueue.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
+                    blockingQueue.offer(value);
+                },
+                "Producer"
+        );
+        Thread consumer = new Thread(
+                () -> {
+                    try {
+                        blockingQueue.poll();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
                 },
-                "Thread1"
+                "Consumer"
         );
-        Thread thread2 = new Thread(
-                () -> {
-                    if (blockingQueue.poll().describeConstable().isEmpty()) {
-                        try {
-                            blockingQueue.wait();
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                },
-                "Thread2"
-        );
-        thread1.start();
-        thread2.start();
+        producer.start();
+        consumer.start();
+        assert(blockingQueue.)
     }
 }
