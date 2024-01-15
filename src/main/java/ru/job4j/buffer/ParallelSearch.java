@@ -1,7 +1,5 @@
 package ru.job4j.buffer;
 
-import ru.job4j.SimpleBlockingQueue;
-
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -33,7 +31,6 @@ public class ParallelSearch {
                             e.printStackTrace();
                         }
                     }
-                    queue.notify();
                 }
 
         ).start();
