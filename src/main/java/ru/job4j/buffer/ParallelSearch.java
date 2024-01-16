@@ -8,17 +8,7 @@ public class ParallelSearch {
     public static void main(String[] args) {
         BlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
         final Thread consumer = new Thread(
-                () -> {
-                    while (queue.size() > 0) {
-                        try {
-                            queue.wait();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            Thread.currentThread().interrupt();
-                        }
-                    }
-                    System.out.println(queue.poll());
-                }
+                () -> System.out.println(queue.poll())
         );
         consumer.start();
         new Thread(
@@ -34,5 +24,6 @@ public class ParallelSearch {
                 }
 
         ).start();
+        consumer.interrupt();
     }
 }
