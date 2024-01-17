@@ -12,6 +12,9 @@ public class SimpleBlockingQueue<T> {
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
 
+    public SimpleBlockingQueue() {
+    }
+
     public SimpleBlockingQueue(int maxSize) {
         this.maxSize = maxSize;
     }
