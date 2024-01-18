@@ -5,10 +5,10 @@ import ru.job4j.SimpleBlockingQueue;
 public class ParallelSearch {
 
     public static void main(String[] args) {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(3);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
         final Thread consumer = new Thread(
                 () -> {
-                    for (int i = 0; i != 3; i++) {
+                    while (queue.toString().length() != 0) {
                         try {
                             System.out.println(queue.poll());
                         } catch (InterruptedException e) {
@@ -20,7 +20,7 @@ public class ParallelSearch {
         consumer.start();
         new Thread(
                 () -> {
-                    for (int index = 0; index != 3; index++) {
+                    for (int index = 0; index != 5; index++) {
                         try {
                             queue.offer(index);
                         } catch (InterruptedException e) {
@@ -34,5 +34,8 @@ public class ParallelSearch {
                     }
                 }
         ).start();
+        if (queue.toString().length() == 0) {
+            consumer.interrupt();
+        }
     }
 }
