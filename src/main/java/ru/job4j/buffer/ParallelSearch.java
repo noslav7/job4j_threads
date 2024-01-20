@@ -5,29 +5,26 @@ import ru.job4j.SimpleBlockingQueue;
 public class ParallelSearch {
 
     public static void main(String[] args) throws InterruptedException {
-        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(5);
+        SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>(3);
         final Thread consumer = new Thread(
                 () -> {
                     while (true) {
+                        Integer node;
                         try {
-                            if (!(queue.poll() == null)) {
-                                break;
-                            }
+                            node = queue.poll();
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
-                        try {
-                            System.out.println(queue.poll());
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            Thread.currentThread().interrupt();
+                        System.out.println(node);
+                        if (node == 2) {
+                            break;
                         }
                     }
                 });
         consumer.start();
-        new Thread(
+        final Thread producer = new Thread(
                 () -> {
-                    for (int index = 0; index != 5; index++) {
+                    for (int index = 0; index != 3; index++) {
                         try {
                             queue.offer(index);
                         } catch (InterruptedException e) {
@@ -38,10 +35,13 @@ public class ParallelSearch {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+                        if (index == 2) {
+                            Thread.currentThread().interrupt();
+                        }
                     }
-                }
-        ).start();
-        if (Thread.currentThread().isInterrupted()) {
+                });
+        producer.start();
+        if (producer.isInterrupted()) {
             consumer.interrupt();
         }
     }
