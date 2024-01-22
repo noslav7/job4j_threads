@@ -8,12 +8,9 @@ import java.util.Queue;
 
 @ThreadSafe
 public class SimpleBlockingQueue<T> {
-    private int maxSize;
+    private final int maxSize;
     @GuardedBy("this")
     private final Queue<T> queue = new LinkedList<>();
-
-    public SimpleBlockingQueue() {
-    }
 
     public SimpleBlockingQueue(int maxSize) {
         this.maxSize = maxSize;
@@ -34,5 +31,9 @@ public class SimpleBlockingQueue<T> {
         T removedElement = queue.poll();
         notify();
         return removedElement;
+    }
+
+    public boolean isEmpty() {
+        return queue.isEmpty();
     }
 }
